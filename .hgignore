@@ -1,2 +1,5 @@
 artifacts/*
 cache/*
+wp-config.json
+times.csv
+
