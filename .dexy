@@ -1,0 +1,13 @@
+{ 
+    "index.html|jinja|wp" : {
+        "allinputs" : true
+    },
+    "post.json|dexy" : {},
+    "*.c|c" : {},
+    "*.c|pyg" : {},
+    "*.py|py" : {},
+    "*.py|pyg" : {},
+    "*.R|jinja|r|pyg" : {},
+    "*.R|pyg" : {},
+    "*.txt|dexy" : {}
+}

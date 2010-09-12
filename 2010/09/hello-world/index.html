@@ -1,0 +1,201 @@
+<p>I'm delighted to announce the imminent launch of Dexy. Dexy is open source software for automating documents and documentation. The goal of Dexy is for you to never manually type runnable code or the results of running that code into your document. If you're writing a tutorial, the example code and the example output all come from running live code. If you're writing a scientific paper or lab report, then your graphs, results of statistical analysis, raw data tables and any source code examples which appear in your paper are all fully automated. Dexy is powerful open source productivity software for scientists, programmers and anyone else who writes about code or data. I hope Dexy will change the way you work.</p>
+
+<p>Dexy's approach helps you produce software documentation quickly and accurately. How many times have you seen mistakes in tutorials, or in RDoc/JavaDoc-style comments right next to the code? Even more importantly, Dexy helps you <strong>maintain</strong> that documentation over time. I've seen many projects with excellent documentation written for the 0.1 release, but not updated to reflect the changes in the 0.3 release, causing frustration and confusion to users. Good documentation is key to attracting and retaining users, and maximizing the benefits they receive from using your software. Dexy makes it easier not just to write documentation, but to write good documentation, in any format you like, and to keep it up to date.</p>
+
+<p>For scientific writing, Dexy helps you compose documents quickly and easily, but also helps you (or others) validate the correctness of those documents by clearly linking sources to the end results. If you're revisiting work that's a few years old, having built it with Dexy will ensure that you can update it easily and remind yourself how it was put together. "Show me how you arrived at this number" will be a question you'll look forward to being asked (or, if you publish your full sources, a question your readers won't need to ask).</p>
+
+<p>Dexy works for any kind of document. The most common approach taken in the demos is to write text in a LaTeX or HTML document, and pull in sections of source code, graphs or output from other scripts using tags. This allows you to write any type of document: tutorials, getting started guides, architecture overviews, literate test output, a personal research journal, blog posts. But Dexy simply structures the composition of various tools, and it's very easy to write new Dexy filters, so this is just the beginning of what Dexy can do. Dexy is written in Python, and this makes it slightly easier to incorporate tools with a native Python interface, but with Python's <a href="http://www.noah.org/wiki/Pexpect">pexpect</a> module you can run any command line process as a filter. Or, as in the C filter, multiple command line processes (the clang compiler, followed by running the freshly compiled C code).</p>
+
+<p>You can accomplish document automation to some degree with shell scripts, rake/make and other automation tools, and there are existing software tools which support literate documentation, but no approach is as convenient, complete or flexible as Dexy. If you already have a favourite tool, then you don't need to stop using it to get the benefits of Dexy. If it has a command line interface or it can be scripted, then it can probably work as a Dexy filter.</p>
+
+<table style="height: 350px;" width="576">
+<tbody>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left; font-weight: bold;">Dexy</td>
+<td style="text-align: left; font-weight: bold;">Sphinx</td>
+<td style="text-align: left; font-weight: bold;">Sweave</td>
+</tr>
+<tr>
+<td style="text-align: left;">any language</td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: left;">Python, C/C++</td>
+<td style="text-align: left;">R</td>
+</tr>
+<tr>
+<td style="text-align: left;">any templating system</td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: left;">ReST</td>
+<td style="text-align: left;">noweb</td>
+</tr>
+<tr>
+<td style="text-align: left;">any markup</td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: left;">ReST</td>
+<td style="text-align: left;">LaTeX</td>
+</tr>
+<tr>
+<td style="text-align: left;">runnable code</td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+</tr>
+<tr>
+<td style="text-align: left;">standalone source code files</td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/cross.jpg" alt="" /></td>
+</tr>
+<tr>
+<td style="text-align: left;">freeform documents</td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/cross.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+</tr>
+<tr>
+<td style="text-align: left;">mix multiple languages</td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/cross.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/cross.jpg" alt="" /></td>
+</tr>
+<tr>
+<td style="text-align: left;">smart caching</td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/check.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/cross.jpg" alt="" /></td>
+<td style="text-align: center;"><img src="http://blog.dexy.it/wp-content/uploads/2010/09/cross.jpg" alt="" /></td>
+</tr>
+</tbody>
+</table>
+
+<p style="font-size:8px;">(help me improve this feature table by letting me know if there are other packages I should include, or any other suggestions/corrections)</p>
+
+<h2>How it Works</h2>
+
+<h3>input. filter. combine.</h3>
+<p>Dexy works by taking inputs, usually raw text files, and running the text through filters. Filters are arbitrary code which change the input text in some way. Filters can be chained together, so the output of one filter becomes the input to the next filter.</p>
+
+<p>Filters can change the input text in a subtle way, such as applying syntax highlighting tags to source code. Or filters can take more drastic action, like running code and using the input text as a parameter specification (or ignoring the input text altogether). You can do absolutely anything with a filter.</p>
+
+<p>Taking input text and piping it through filters is hardly new; where Dexy really shines is in the way you specify which filters should be run, and in letting you compose documents with other documents as inputs. Dexy looks for specification files named .dexy, which are JSON-formatted text files that you place in the directory containing files you wish to process, or in any parent directory within the project. Within the .dexy file, you specify individual files or wildcard patterns and use the | symbol to indicate the filters you wish to apply.</p>
+
+<p>So, for example:
+<pre>
+"001.c|c"
+</pre>
+tells Dexy to look for a file named 001.c, and to apply the 'c' filter to this file. The 'c' filter compiles the C code and executes the resulting binary. The output from running this filter is going to be whatever was written to STDOUT by the c programme. The specification:
+<pre>
+"*.c|c"
+</pre>
+tells Dexy to look for any file with a .c extension and run the 'c' filter on it,
+<pre>
+"*.c|pyg"
+</pre>
+tells Dexy to look for any file with a .c extension and to apply the 'pyg' filter to it (which runs the <a title="Pygments" href="http://pygments.org">Pygments</a> syntax highlighter on the input). The 'pyg' filter defaults to HTML output, if we wanted LaTeX instead we could achieve this by specifying:
+<pre>
+"*.c|pyg|l"
+</pre>
+where 'l' is a filter which simply passes through the input text unchanged, but it restricts its input to .latex files (which forces the 'pyg' filter to output LaTeX).</p>
+
+<p>Now, these C files and their output and their syntax highlighting could be useful on their own, but how about this:
+<pre>
+"tutorial.html|jinja" : {
+   "inputs" : [
+     "*.c|pyg",
+     "*.c|c"
+   ]
+ }
+</pre></p>
+<p>That tells Dexy that we want to take the contents of tutorial.html and pipe it through the Jinja templating system, and we want the items listed as inputs to be available. So using Jinja tags, we can pull in source code and the output of running that source code anywhere in our HTML document. When you make a change in 001.c, then the syntax highlighting and the record of STDOUT are updated in the tutorial.</p>
+
+<p>Prefer to publish a PDF? No problem. Write your tutorial as a .tex file.
+<pre>
+"tutorial.tex|jinja|latex" : {
+   "inputs" : [
+     "*.c|pyg|l",
+     "*.c|c"
+   ]
+ }
+</pre></p>
+<p>The jinja filter will pull in the source code and outputs, and the latex filter will run 'pdflatex' and actually create a PDF.</p>
+
+<p>Of course, with wildcards you don't need to specify this for each document you want to create. You can say:
+<pre>"*.html|jinja" : {
+   "inputs" : [
+     "*.c|pyg",
+     "*.c|c"
+   ]
+ }</pre>
+in the root of your project and this rule will apply in all subdirectories (unless overridden). In fact, there's even a shorter way:
+<pre>
+"*.html|jinja" : {
+ "allinputs" : true
+ }
+ </pre></p>
+<p>That tells Dexy to make available *all* other outputs (except those also marked as 'allinputs').</p>
+
+<p>Dexy will automatically figure out what depends on what and will run inputs in the correct order (and will raise an error if there are circular dependencies).</p>
+
+<h3>cache.</h3>
+<p>Dexy's caching system makes it easy to include the results of multiple inputs, and it also makes Dexy fast and correct. Fast because filters are only processed when they need to be, and correct because when filters need to be re-run, they are. The caching system stores output in a file whose name is a hashcode calculated based on all vital inputs to the file (plus the file extension). When any of those ingredients change, the hashcode changes, and the next time the file is requested the input text gets run through filters again. If a document depends on other documents, a change in any of these documents will change the hashcode, so the document will be updated. The use of files for caching also makes it very easy to write filters incorporating command line tools which take a filename as input.</p>
+
+<p>I have started to use this caching system in other projects, it's a quick and easy way of having rapid access to correct information.</p>
+
+<h2>Say Hello</h2>
+
+<p>Here are some Hello, World examples to give you a taste of what Dexy can do. This source code for this blog is <a href="https://bitbucket.org/ananelson/dexy-blog">hosted on bitbucket</a> so check that out if you want to see the source of this document.</p>
+
+<h3>Voice Example</h3>
+
+<p>Let's let Dexy do some talking.</p>
+
+<p>{{ d['hello.txt|dexy'] }}</p>
+
+<embed src="artifacts/{{ d['filename']['hello.txt|jinja|voice'] }}" AUTOSTART=FALSE HEIGHT=20 />
+
+<p>The dynamic text was generated by running this simple R script:
+{{ d['random.R|pyg'] }}
+</p>
+
+<h3>C Example</h3>
+
+<p>Here is the source of a hello, world in C:
+{{ d['hello.c|pyg'] }}
+And here is the outcome of running this:
+<pre>
+{{ d['hello.c|c'] }}
+</pre>
+</p>
+
+<h3>Python Example</h3>
+
+<p>And, here's a hello from Python:<p/>
+{{ d['hello.py|pyg'] }}
+
+<p>And here is the outcome of running this:</p>
+<pre>
+{{ d['hello.py|py'] }}
+</pre>
+
+<h3>Fancy R Example</h3>
+<p>And, let's not leave out R!</p>
+
+<p>Here is the R script before any processing:</p>
+{{ d['hello.R|pyg'] }}
+
+<p>You might notice some Jinja tags in there. This R file gets run through the Jinja2 filter before being executed in R, and the create_input_file function generates random filenames. Dexy will keep track of these for us, we just need to know the key we have chosen, in this case "waveform". This system ensures that we write to a different file every time this code is run, without having to worry about carefully naming files. This is a convenience for an example like this, but it becomes very important when dealing with more complex documents.</p>
+
+<p>In the line above, we also use Jinja tags to insert the name of the mp3 file generated earlier by the voice filter.</p>
+
+<p>Here's how this looks when it's actually run in R, after the tags are filled in:</p>
+
+{{ d['hello.R|jinja|r|pyg'] }}
+
+<p>And here is the waveform graph (try playing the mp3 file above while looking at this):</p>
+
+<img src="{{ d['a']['waveform'] }}" />
+
+<h2>Dexy Project</h2>
+
+<p>My goal for this post was to explain enough about Dexy to help you decide if you are interested enough to want to know more. If you are, then you can follow <a title="http://twitter.com/dexyit" href="http://twitter.com/dexyit">@dexyit</a> on twitter or subscribe to <a title="http://blog.dexy.it/feed" href="http://blog.dexy.it/feed">this blog's RSS feed</a> for updates. The dexy.it website will also be launching very soon. This blog will feature tutorials for using and extending Dexy, examples and case studies demonstrating the benefits of Dexy, and discussions of Dexy's internals. If you're in Dublin, then I'll be officially launching Dexy at <a href="http://ossbarcamp.com">ossbarcamp</a> in 2 weeks, come along!</p>
+
+<p>Dexy isn't ready for prime time yet, the command line tool is very basic and not well documented yet, but if you're curious and want to poke around, then feel free to check out <a href="https://bitbucket.org/ananelson/dexy">the source</a> at bitbucket.</p>

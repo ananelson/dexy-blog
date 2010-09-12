@@ -1,0 +1,8 @@
+{
+  "hello.R|jinja|r|pyg" : {
+    "inputs" : ["hello.txt|jinja|voice"]
+  },
+  "hello.txt|jinja|voice" : {
+    "inputs" : ["random.R|rart"]
+  }
+}

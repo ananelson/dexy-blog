@@ -1,0 +1,1 @@
+Hi, I'm Dexy. This mp3 was made by the voice filter, I can say dynamic text like {{ d['random.R|rart'] }}.
