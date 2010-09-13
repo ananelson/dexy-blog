@@ -2,6 +2,9 @@
     "index.html|jinja|wp" : {
         "allinputs" : true
     },
+    "index.txt|jinja|textile|wp" : {
+        "allinputs" : true
+    },
     "post.json|dexy" : {},
     "*.c|c" : {},
     "*.c|pyg" : {},
@@ -9,5 +12,6 @@
     "*.py|pyg" : {},
     "*.R|jinja|r|pyg" : {},
     "*.R|pyg" : {},
-    "*.txt|dexy" : {}
+    "*.txt|dexy" : {},
+    "*.sh|pyg" : {}
 }

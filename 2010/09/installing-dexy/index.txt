@@ -1,0 +1,11 @@
+Here's what's needed to install Dexy on a totally blank Arch Linux installation:
+
+{{ d['example-arch-install.sh|pyg'] }}
+
+If you wanted to, you could actually run that script (I did to check it). However, you can also just use it as a handy checklist of what should be installed to get Dexy working. Pacman is the Arch Linux package manager/installer, so you might need to check for different package names and of course use the appropriate syntax for your package manager of choice. Hopefully easy_install will be the same everywhere and if you already have that, this shouldn't take long. You need everything on there in order to run the tests, however if you really feel the need you can try leaving off some of the packages in the second list if you feel you won't need to use the Dexy filters which require them. (I'll be tidying up the filter system soon too so Dexy won't complain if you don't have the ingredients for every filter installed.)
+
+A note about pexpect. Dexy uses pexpect for many of its filters, including the filter which runs Python code. This allows tremendous flexibility, in that anything with a command line interface can be controlled using pexpect. However, pexpect only works on *nix-like operating systems, not on Windows. This means that Dexy's functionality will be very limited on Windows for the time being (and I haven't done any testing of Dexy on Windows yet).
+
+However, I would encourage Windows users to consider using Dexy nonetheless by running it in a virtual machine which runs a flavour of Linux.  You are likely to have a better experience using the sorts of tools which are more suited to Dexy on Linux, and running Linux within a virtual machine gives you a "soft" start if you are new to this environment. You won't need to worry about many of the issues such as device drivers which tend to pose problems for new users, you can just use Linux for research or documentation-related tasks and continue using Windows as before for remaining tasks. Working with virtual machines has many advantages such as being able to easily revert to 'snapshots' of your system if you make a mistake in installing or configuring software.
+
+If you run into any issues, please let me know.
