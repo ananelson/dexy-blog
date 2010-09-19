@@ -1,5 +1,8 @@
+syntax: glob
 artifacts/*
 cache/*
 wp-config.json
 times.csv
+*.swp
+*.pyc
 

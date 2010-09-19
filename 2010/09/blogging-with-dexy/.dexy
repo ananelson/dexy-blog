@@ -1,0 +1,10 @@
+{
+  "index.txt|jinja|textile|wp" : {
+    "allinputs" : true,
+    "inputs" : [
+      "wp-handler.py|idio",
+      "wp-config-example.json|dexy",
+      "../../../.dexy|dexy"
+      ]
+  }
+}

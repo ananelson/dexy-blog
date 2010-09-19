@@ -1,0 +1,128 @@
+Blogging about programming often means talking about code, and including code snippets in your blog post. Anyone who has tried to set up a technical blog will know that this isn't that easy. GUI text editors like to reformat your code, especially ignoring whitespace. Then there's the thorny issue of syntax highlighting. And, blog posts have the same issues as any other type of writing when it comes to including source code: if you write the source code directly into the document, it might be wrong (and I find it to be a relatively slow process). If you write it separately and test it, then copy and paste, it's probably correct but then any changes you make may introduce errors. (I always find that, as I write, I iterate the example code.) Also, the snippet you want to type into your blog may not be able to run on its own. You want to be able to write code in code files using your favourite text editor, test and run it, and then leave it there to be run again at any time or modified and re-tested, but be able to pull out just the useful and interesting sections to include in your discussion. This post is going to show you how Dexy makes this possible.
+
+I started out using WordPress for my "personal blog":http://ananelson.com a few years ago, but eventually gave up and switched to a static text generator called "webby":http://webby.rubyforge.org which gave me all the control I wanted over my content, but didn't have 'bloggy' features like comments. I ended up "writing something for that":http://ananelson.com/blog/2009/07/a-comments-engine-for-webby which works but certainly isn't as convenient as what you'd find in a system like WordPress. Also, the static text generation approach means you need to be writing at a machine which has your blog source and all the tools needed to build it. You can't just log in from anywhere, anytime and fire off a short post.
+
+So, when I was getting ready to start blogging regularly about Dexy, I started thinking about how I would do that. And, I decided to find out whether Dexy could solve this for me. I (eventually) found the documentation for WordPress's XMLRPC-based APIs (there's a confusing mess of them), and a shockingly short time later I was posting content directly to WordPress. I added a Pygments stylesheet to my WordPress template, and my source code was instantly highlighted.
+
+In principle, you could use Dexy to post content to any blogging system with an API that supports creating and editing posts and uploading media content. I have implemented WordPress first since it's widely available. If you have a favourite blogging platform which has an API and you'd like Dexy to support it, then please feel free to "submit a patch or request it as a feature via bitbucket":http://bitbucket.org/ananelson/dexy/issues. I have been asked already about supporting Posterous, but the Posterous API does not seem to support editing posts, just creating them, so it would be very difficult to make corrections to a post after it had been posted. For this reason I won't implement Posterous support just yet (but shout if you really, really want it).
+
+To configure posting to WordPress via Dexy, you need to create a file named wp-config.json which should specify 'user', 'pass' and 'xmlrpc_url'
+
+<pre>
+{{ d['wp-config-example.json|dexy'] }}
+</pre>
+
+Make sure you have enabled the XMLRPC interface, it's off by default. The user should have sufficient privileges to create and publish content.
+
+The wp-config.json file should be in the root of your blog directory. I use a convention like this, where you write the blog post content in a file called index.html or index.txt and have all files relating to the blog post kept in the same folder:
+
+<pre>
+.dexy
+wp-config.json
+2010/09/name-of-blog-post/index.html
+2010/09/name-of-blog-post/post.json
+2010/09/name-of-blog-post/source code files etc...
+2010/09/another-blog-post/index.html
+2010/09/another-of-blog-post/post.json
+2010/09/another-blog-post/source code files etc...
+</pre>
+
+Then my dexy config file looks like this:
+
+<pre>
+{{ d['.dexy|dexy'] }}
+</pre>
+
+Then I can run "dexy ." or "dexy 2010" or "dexy 2010/09/name-of-blog-post" to render and upload the content. The post.json file specifies the title of the blog post and whether it should be published or just uploaded as a draft. Once you have uploaded once to WordPress this file also stores the post id.
+
+<pre>
+{{ d['post.json|dexy'] }}
+</pre>
+
+h2. Handler Code
+
+Here's the code which handles uploading content to WordPress. (You can see the most up-to-date version of this code "here":http://bitbucket.org/ananelson/dexy/src/tip/handlers/python.py.)
+
+{{ d['sections']['wp-handler.py|idio']['imports'] }}
+
+WordPressHandler is a subclass of DexyHandler, and we define 'wp' to be the alias for this handler, this means you add 'wp' to your list|of|filters to indicate that content should be uploaded to WordPress.
+
+The 'process_text' method does all the work, starting by opening the wp-config.json file to read and then check its contents:
+
+{{ d['sections']['wp-handler.py|idio']['process-text'] }}
+
+That file contains the configuration for the blog as a whole, the login credentials and the location of the blog. Next we want the information specifically relating to this blog post, in the post.json file:
+
+{{ d['sections']['wp-handler.py|idio']['post-json'] }}
+
+So now the post_conf dict knows the title of this blog post and, if it has one already, the post id.
+
+Next we connect to the server:
+
+{{ d['sections']['wp-handler.py|idio']['connect'] }}
+
+Now we are going to define a nested function, a feature of Python which I love! If our blog post contains images, audio files or other media, we want to upload these to WordPress automatically. I'll skip ahead first and show you how the upload_files_to_wp function is used:
+
+<notextile>
+{{ d['sections']['wp-handler.py|idio']['do-upload-media'] }}
+</notextile>
+
+We pass in regular expressions which should match the tags we have used to embed images and audio. Our function is going to search for these regular expressions, upload the file that is being referenced, then update the URL to be the remote WordPress URL instead of a local URL. You can see we are replacing the input_text variable each time we call this.
+
+Here's the function. It takes the regular expression and the blog post text, and the first thing it does is set up a dict to cache uploaded files, we will use this so that if the same file is referenced more than once, we only upload it once:
+
+{{ d['sections']['wp-handler.py|idio']['upload-media'] }}
+
+Then we search for the regular expression and loop over every occurrence in the text. If we can find the file in the cache, then we're done:
+
+{{ d['sections']['wp-handler.py|idio']['search-loop'] }}
+
+If not, then we start the upload process. We read the contents of the media file, and convert them to a binary form which the WordPress API is expecting:
+
+{{ d['sections']['wp-handler.py|idio']['upload-media-file'] }}
+
+Then we set up a dict so that we can figure out the MIME type based on the file extension:
+
+<notextile>
+{{ d['sections']['wp-handler.py|idio']['mime-types'] }}
+</notextile>
+
+Now we set up a dict which has the elements we will upload, the file's name, MIME type and the actual file contents:
+
+<notextile>
+{{ d['sections']['wp-handler.py|idio']['upload-dict'] }}
+</notextile>
+
+Finally, we upload. WordPress will return the new URL of the file. We note this and store it in our cache in case we use this same file again later:
+
+<notextile>
+{{ d['sections']['wp-handler.py|idio']['do-upload-media-file'] }}
+</notextile>
+
+Almost done, now we need to replace the local URL in our document with the new URL which WordPress gave us:
+
+{{ d['sections']['wp-handler.py|idio']['replace-url'] }}
+
+Once again, here's how we use this:
+
+<notextile>
+{{ d['sections']['wp-handler.py|idio']['do-upload-media'] }}
+</notextile>
+
+Now that our media has been uploaded, we're finally ready to upload our actual blog post:
+
+<notextile>
+{{ d['sections']['wp-handler.py|idio']['upload-post'] }}
+</notextile>
+
+If this is the first time we've posted, then we will use the newPost() API call. This returns a post_id which we save in our post.json config file. If there's already a post_id in there, then we instead call editPost() which changes the contents of the post.
+
+A nice feature of the API is that you can use it to create a draft of your blog post so you can preview it. You do this by passing 'publish' : false. When you are ready to publish, update your config to 'publish' : true and run Dexy again.
+
+h2. Blogging Workflow
+
+I mentioned at the start that a disadvantage of using a static text generator is that you are 'tied' somewhat to a machine with the correct software installed. To write and publish a blog post using Dexy, you will need to be on a machine with Dexy installed, along with whatever other dependencies you need (for example, R if you are blogging about R and want to run examples). However, by using WordPress you do *not* need to be at such a machine to moderate comments, write a new non-code blog post, or even to make changes to a blog post created using Dexy (although if you did make a manual edit to a generated blog post, then you should update your sources as soon as possible so that they remain in sync with the published version). This approach gives you the best of both worlds.
+
+The source code for this blog is available from "a Mercurial repository":http://bitbucket.org/ananelson/dexy-blog hosted on Bitbucket. You can view "the raw textile source":http://bitbucket.org/ananelson/dexy-blog/src/tip/2010/09/blogging-with-dexy/index.txt for this blog post, and see how the various source files are incorporated using Jinja tags. If you decide to try blogging with Dexy, then I would recommend that you do something similar so that it's easy for people to recreate your examples and download your source code files.
+
+

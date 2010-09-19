@@ -10,6 +10,7 @@
     "*.c|pyg" : {},
     "*.py|py" : {},
     "*.py|pyg" : {},
+    "*.py|idio" : {},
     "*.R|jinja|r|pyg" : {},
     "*.R|pyg" : {},
     "*.txt|dexy" : {},

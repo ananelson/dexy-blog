@@ -1,0 +1,5 @@
+{
+  "user" : "author",
+  "pass" : "password",
+  "xmlrpc_url" : "http://blog.dexy.it:80/xmlrpc.php"
+}
