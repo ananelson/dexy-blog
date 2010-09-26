@@ -1,0 +1,59 @@
+The dexy command-line tool is the primary way of interacting with Dexy. Let's take a look at the options which are available by calling:
+
+<notextile>
+{{ d['dexy-help.sh|pyg'] }}
+</notextile>
+
+<notextile> <!--more--> </notextile>
+
+Here's the output:
+
+<pre>
+{{ d['dexy-help.sh|bash'] }}
+</pre>
+
+Only the directory argument is actually necessary to run dexy, you can simply type <pre>dexy .</pre> to run dexy on the directory you are currently in.
+
+Dexy will look for a directory called artifacts in which it will place cached generated files, and it will complain if you don't have one. Similarly Dexy wants you to create a logs/ directory. Dexy will create its own cache/ directory and will write the final output of each processed file to a canonical filename here. You can tell Dexy to use a different name for any of these directories should you want to. 
+
+By default, dexy will recurse into subdirectories and process files in those subdirectories. You can avoid this by passing the <notextile>-n</notextile> flag. Alternatively if you want to tell dexy not to recurse into certain directories, then use the <notextile>-x</notextile> flag for this. If you are using Python 2.7, then you can separate multiple directories with spaces. Because of this you need to use <notextile>--</notextile> after the last excluded directory, or use another flag after <notextile>-x</notextile> before giving the directory you want dexy to operate on.
+
+<notextile>
+{{ d['python-2.7-exclude-directories.sh|pyg'] }}
+</notextile>
+
+If you are using Python 2.6 or lower, then you will need to separate multiple directories with commas.
+
+If you call dexy -h it will give you instructions appropriate for your environment.
+
+It's a good idea to organize your documentation files into projects. You should run dexy from the root directory of each project. For example, here's the root of the dexy-examples repository:
+
+<notextile>
+{{ d['dexy-examples-list.sh|pyg'] }}
+</notextile>
+
+<pre>
+{{ d['dexy-examples-list.sh|bash'] }}
+</pre>
+
+You can see the artifacts/, cache/ and logs/ directories there. You could run all the examples by typing "dexy .", or just one subdirectory (and its children) by typing "dexy c" or "dexy garlicsim". The important thing is that you call dexy from the project root.
+
+Dexy writes to a log file in logs/dexy.log, which you should follow with tail -f as this will explain what Dexy is doing as it runs, and tell you where you can find your processed files.
+
+You will need to have a .dexy configuration file too. You can place a generic configuration file in your project root directory, and add more specific instructions in subdirectories if you need to. For example, here is the default .dexy configuration file for this blog:
+
+<notextile><pre>
+{{ d['.dexy|dexy'] }}
+</pre></notextile>
+
+I'll write more about configuration files soon.
+
+These instructions are current as of:
+
+<notextile>
+{{ d['dexy-version.sh|pyg'] }}
+</notextile>
+
+<notextile>
+{{ d['dexy-version.sh|bash'] }}
+</notextile>
