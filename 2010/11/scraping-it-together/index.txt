@@ -53,7 +53,21 @@ Here is the R transcript which imports the CSV data, graphs it and produces some
 </notextile>
 
 
-By letting you simply specify a URL in your .dexy configuration file, it is now easier to use remote data sources and it's especially easy to keep them up to date. For example, you could access your website's analytics data and do some more intensive analysis on your local machine, then easily update this report on a weekly or monthly basis. I will be adding proper support for specifying version control links like git:// or svn:// or similar, but in the mean time if you have a web browser interface to your repositor which has a raw mode, you can use this approach to reference specific revisions of files in a version control system.
+This example had a mixture of local scripts and remote data sources, which is typical when you are working on your own documents. When it comes time to share your documents with others, being able to specify remote files in Dexy opens up some really interesting possibilities.
 
-If you were to write a dexy configuration file, say example.dexy, which only referenced remote rather than local files, then anyone else should be able to reconstruct the specified documents by running the dexy command on this configuration file. This is probably a good time to mention a new command-line argument available in Dexy, the -g or --config switch which lets you specify a configuration file other than the default of .dexy. This opens up some very interesting possibilities for reproducibile research.
+Consider this configuration file:
+
+<notextile><pre>
+{{ d['scraping-it-together.dexy|dexy'] }}
+</pre></notextile>
+
+This is probably a good time to mention a new command-line argument available in Dexy, the -g or --config switch which lets you specify a configuration file other than the default of .dexy. If you have Dexy, RedCloth, Pygments and R installed, then you should be able to build this blog post in a blank directory by saving the above configuration as scraping-it-together.dexy and running:
+
+<notextile><pre>
+{{ d['build.sh|pyg'] }}
+</pre></notextile>
+
+I will probably consider adding a switch which will create copies of the virtual files in the local directory, so the dexy configuration file format could be used as a way to distribute worked code tutorial examples as well as reproducible research documents.
+
+I encourage you to take a look at the "source":http://bitbucket.org/ananelson/dexy-blog/src/146d3429c753/2010/11/scraping-it-together/index.txt of this blog post, especially if you are new to Dexy. The post's directory is "here":http://bitbucket.org/ananelson/dexy-blog/src/146d3429c753/2010/11/scraping-it-together/ on bitbucket.
 

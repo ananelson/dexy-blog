@@ -11,7 +11,12 @@
   "@scraper-data.csv|dexy" : {
     "url" : "http://api.scraperwiki.com/api/1.0/datastore/getdata?format=csv&name=foi_botanical_gardens&limit=500"
   },
-  "scraper.R|jinja|r|pyg" : {
+  "@index.txt|jinja|textile" : {
+    "url" : "http://bitbucket.org/ananelson/dexy-blog/raw/146d3429c753/2010/11/scraping-it-together/index.txt",
+    "allinputs" : true
+  },
+  "@scraper.R|jinja|r|pyg" : {
+    "url" : "http://bitbucket.org/ananelson/dexy-blog/raw/146d3429c753/2010/11/scraping-it-together/scraper.R",
     "inputs" : ["@scraper-data.csv|dexy"]
   },
   ".dexy|dexy" : {},
