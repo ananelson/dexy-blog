@@ -14,5 +14,6 @@
     "*.R|jinja|r|pyg" : {},
     "*.R|pyg" : {},
     "*.txt|dexy" : {},
-    "*.sh|pyg" : {}
+    "*.sh|pyg" : {},
+    "*.jpg|cp": {}
 }

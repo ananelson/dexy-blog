@@ -1,0 +1,59 @@
+I'm very excited to announce a new Dexy feature: now you can automatically fetch remote data and incorporate it into your Dexy document. Dexy will even cache the file for you and only download it again if it has changed on the remote server (http only for now, assuming either ETag or Last-Modified headers are present). One of the first things this makes possible is easily fetching and using data from remote APIs. In this blog post we'll see how this works, using an example from "ScraperWiki":http://scraperwiki.com.
+
+ScraperWiki is a fantastic project which aims to make open data easier to use. It's a library of scrapers which take public data sets (typically in HTML, XLS or PDF formats), clean them up and make them available via a standard API or a CSV download. Rather than one person writing a scraper, running it locally and doing something with the data, with ScraperWiki anyone can write a scraper, someone else (hopefully several people) can write an article or do research based on the scraped data, and if the scraper breaks anyone can come along and fix it. It's a great platform for loose collaboration among "hacks and hackers". I especially love that it's so easy to get involved without making a huge commitment, if you "have a few minutes":http://scraperwiki.com/get_involved/ you can go to ScraperWiki and see broken scrapers that need fixing or write a new scraper that has been requested by someone.
+
+While I look forward to exploring ways in which Dexy can help with ScraperWiki's "documentation":http://scraperwiki.com/help/code_documentation, especially given that ScraperWiki allows scrapers written in Python, Ruby and PHP and Dexy is ideal for such multi-language situations, ScraperWiki already has a very interesting live-code setup for tutorials. When you click on a tutorial, you are brought into ScraperWiki's code editor with a live example that you can play with, with extensive comments for documentation. For example, here is the first Python tutorial:
+
+<notextile>
+{{ d['tutorial.py|pyg'] }}
+</notextile>
+
+And here is the first Ruby tutorial, along the same lines:
+
+<notextile>
+{{ d['tutorial.rb|pyg'] }}
+</notextile>
+
+If you'd like to play with these yourselves, then "here is the Python tutorial":http://scraperwiki.com/editor/template/tutorial-1 and "here is the Ruby tutorial":http://scraperwiki.com/editor/template/ruby-tutorial-1, or just click the Tutorials link in the sidebar from "scraperwiki.com":http://scraperwiki.com. 
+
+Now let me stop here for a moment to point out that I fetched that python and ruby code directly from scraperwiki.com using Dexy's new remote file feature. Here is the .dexy file for this blog post:
+
+<notextile><pre>
+{{ d['.dexy|dexy'] }}
+</pre></notextile>
+
+Since JSON doesn't have a comment character[1], I can't use Idiopidae syntax to split this into manageable chunks, however I think we can manage. The file names beginning with an @ symbol are virtual files, they don't actually exist on the file system, but Dexy is going to pretend that they are there. So, we can do the usual Dexy things with these "files" like run them through filters or use them as inputs to other documents. The 'url' property tells Dexy to fetch the contents at that URL, and these become the contents of the virtual file. Any type of text-based data (eventually binary data too) can be fetched in this way. In this example I have fetched Python and Ruby code, and CSV data. We specify the file extension ourselves when we name the virtual file, so later filters will treat the downloaded text correctly. For example, Pygments knows from the .py file extension that it's getting Python code.
+
+fn1. Waaaaaaaahhhhhhhh! WHY didn't they include a comment character!???!!!!
+
+Next let's take a look at the source code of "a real scraper":http://scraperwiki.com/scrapers/foi_botanical_gardens/:
+
+<notextile>
+{{ d['scraper-source.py|pyg'] }}
+</notextile>
+
+This scraper scrapes a spreadsheet containing temperature observations from the Botanic Gardens at the University of Cambridge, obtained under a Freedom of Information act request which you can view "at whatdotheyknow.com":http://www.whatdotheyknow.com/request/temperature_data_from_botanical. The file contains daily observations from 2000 - 2010, we will just look at the 500 most recent observations (to do more would require multiple calls to the ScraperWiki api, easy to do but not really needed for demonstration purposes).
+
+Here is what the first few lines of the resulting CSV data looks like:
+
+<pre>
+{{ d['scraper-data.csv|dexy'][0:400] }}...
+</pre>
+
+(Yes, the column names are a little wonky but the tmax, tmean and tmin correspond to the correct data so we'll use these.)
+
+We are going to use R to graph this data, and to tell us a little more about it via R's summary() function. Here is the graph of daily data, the mean temperature is graphed in black with daily maximums and minimums in red and blue respectively.
+
+<img src="artifacts/{{ d['a']['max-temps'] }}" />
+
+Here is the R transcript which imports the CSV data, graphs it and produces some simple summary statistics:
+
+<notextile>
+{{ d['scraper.R|jinja|r|pyg'] }}
+</notextile>
+
+
+By letting you simply specify a URL in your .dexy configuration file, it is now easier to use remote data sources and it's especially easy to keep them up to date. For example, you could access your website's analytics data and do some more intensive analysis on your local machine, then easily update this report on a weekly or monthly basis. I will be adding proper support for specifying version control links like git:// or svn:// or similar, but in the mean time if you have a web browser interface to your repositor which has a raw mode, you can use this approach to reference specific revisions of files in a version control system.
+
+If you were to write a dexy configuration file, say example.dexy, which only referenced remote rather than local files, then anyone else should be able to reconstruct the specified documents by running the dexy command on this configuration file. This is probably a good time to mention a new command-line argument available in Dexy, the -g or --config switch which lets you specify a configuration file other than the default of .dexy. This opens up some very interesting possibilities for reproducibile research.
+

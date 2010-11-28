@@ -1,0 +1,19 @@
+{
+  "@tutorial.py|pyg" : {
+    "url" : "http://scraperwiki.com/editor/raw/tutorial-1"
+  },
+  "@tutorial.rb|pyg" : {
+    "url" : "http://scraperwiki.com/editor/raw/ruby-tutorial-1"
+  },
+  "@scraper-source.py|pyg" : {
+    "url" : "http://scraperwiki.com/editor/raw/foi_botanical_gardens"
+  },
+  "@scraper-data.csv|dexy" : {
+    "url" : "http://api.scraperwiki.com/api/1.0/datastore/getdata?format=csv&name=foi_botanical_gardens&limit=500"
+  },
+  "scraper.R|jinja|r|pyg" : {
+    "inputs" : ["@scraper-data.csv|dexy"]
+  },
+  ".dexy|dexy" : {}
+}
+
