@@ -1,0 +1,42 @@
+Here's a fun Python demo for Dexy involving turtle graphics. Python has a built-in "turtle graphics":http://docs.python.org/library/turtle.html library, letting you play with the turtle commands you might remember from "Logo":http://en.wikipedia.org/wiki/Logo_(programming_language) (although wihout the lisp).
+
+After LOTS of digging in my stubborn determination to figure out a way to render or save the graphics, I found that "Tkinter":http://docs.python.org/library/tkinter.html canvases have the option to render their contents in postscript format, so after writing two new Dexy filters we can automate the entire process as follows:
+
+<notextile><pre>
+{{ d['.dexy|dexy'] }}
+</pre>
+<!--more-->
+</notextile>
+
+With this approach, we can render a single Turtle Graphics session to a PNG file (by way of PDF). Let's look at the Python code first.
+
+First we import all the turtle commands and get our namespace all dirty:
+{{ d['sections']['turtle-1.py|idio']['imports'] }}
+
+Then we initialize a screen and set its coordinates to be a little bigger than what we're going to draw:
+{{ d['sections']['turtle-1.py|idio']['setup'] }}
+
+Set the pen color to something different:
+{{ d['sections']['turtle-1.py|idio']['pen-color'] }}
+
+And now let's do some drawing:
+{{ d['sections']['turtle-1.py|idio']['draw'] }}
+
+That's it! Just a tiny bit of drawing code.
+
+Finally, we need to print the postscript to STDOUT.
+{{ d['sections']['turtle-1.py|idio']['postscript'] }}
+
+Before we look into the details that make this work, let's see what we drew:
+<img src="artifacts/{{ filenames['turtle-1.py|py|ps2pdf|pdf2png'] }}" width="400px" />
+
+If you look carefully in the middle you can see the turtle!
+
+The first filter we put this script through is the "py":http://www.dexy.it/docs/filters/stdout/ filter. This filter takes a Python script and just returns whatever gets written to STDOUT when the script is run. In this case, the only thing we write to STDOUT is the postscript from the canvas, so that's what is going to get passed to the next filter. This next filter "ps2pdf":http://www.dexy.it/docs/filters/ps2pdf takes postscript and renders it into a PDF. If you wanted PDF output, say for incorporating in a printed document, you could stop here. But for the internet, we want an image format so we use one more filter, "pdf2png":http://dexy.it/docs/filters/pdf2png. You can click on any of those filter aliases to see the source code for those filters.
+
+Let's done one more example, taken from the demos in the Python source code:
+
+{{ d['turtle-2.py|idio'] }}
+
+And here's what this looks like:
+<img src="artifacts/{{ filenames['turtle-2.py|py|ps2pdf|pdf2png'] }}" width="400px" />
