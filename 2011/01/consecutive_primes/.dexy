@@ -1,0 +1,4 @@
+{
+  "*.py|idio|pycon|pyg" : {},
+  "index.txt|wrap" : {}
+}

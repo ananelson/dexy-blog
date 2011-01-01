@@ -1,0 +1,34 @@
+This morning I woke up to see this tweet:
+
+<a href="http://twitter.com/#!/mathematicsprof/status/20987285059141632"><img src="https://img.skitch.com/20110101-nbcxum7efh8583f63yw2b498hq.png" alt="Twitter / @math prof: 2011 is also the sum of 11 ..." /></a>
+
+<!--more-->
+
+While I have no reason to doubt the good professor's claim, I thought it might be fun to check it out. A little googling (yeah, I was feeling very lazy) found a "Python isprime() function":http://www.daniweb.com/forums/post319401.html#post319401:
+
+{{ d['sections']['check-prime-2011.py|idio']['is-prime'] }}
+
+And we can use this to verify that 2011 is a prime number:
+{{ d['sections']['check-prime-2011.py|idio|pycon|pyg']['2011-is-prime'] }}
+
+Next let's check that the list of numbers given does indeed add up to 2011:
+{{ d['sections']['check-prime-2011.py|idio|pycon|pyg']['primes-to-sum'] }}
+
+And that they are all, in fact, prime:
+{{ d['sections']['check-prime-2011.py|idio|pycon|pyg']['check-all-prime'] }}
+
+And finally that the primes are consecutive, that is there are no other primes hiding in this range of numbers:
+{{ d['sections']['check-prime-2011.py|idio|pycon|pyg']['check-consecutive'] }}
+
+We can also phrase these as assertions, which will raise an error if false:
+{{ d['sections']['check-prime-2011.py|idio']['assertions'] }}
+
+And since the source for this blog post is tiny, let's just include it here:
+<notextile><pre>
+{{ d['index.txt|wrap']|e }}
+</pre></notextile>
+
+And here is the Python script in full:
+{{ d['check-prime-2011.py|pyg'] }}
+
+Raw source code is of course available at <a href="http://bitbucket.org/ananelson/dexy-blog">bitbucket</a>.
