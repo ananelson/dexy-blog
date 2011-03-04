@@ -1,0 +1,55 @@
+Dexy has two new filters, a "java" filter and a "javadocs" filter, which provide support for compiling and running Java files as well as incorporating JavaDoc comments and metadata into your documentation.
+
+Here's our Hello, World source code:
+{{ d['hello.java|pyg'] }}
+
+this gets compiled, then run, producing output like this:
+
+<pre>
+{{ d['hello.java|java'] }}
+</pre>
+
+If the file is part of a package then you need to specify the fully qualified class name by passing a 'main' parameter in the .dexy file, you can see this in the .dexy file for this blog post:
+
+<pre>
+{{ d['.dexy|dexy']}}
+</pre>
+
+Here is the helloworld.java file:
+
+{{ d['helloworld.java|pyg'] }}
+
+And here is what it outputs:
+<pre>
+{{ d['helloworld.java|java'] }}
+</pre>
+
+The JavaDoc support is made possible by a custom Doclet ("source code on bitbucket":https://bitbucket.org/ananelson/json-doclet/src). To run the Doclet use a command like this (or an equivalent ant command):
+
+{{ d['run-doclet.sh|pyg'] }}
+
+You should then get a file named javadoc-data.json, which will look something like this:
+
+<pre>
+{{ d['javadoc-data.json|dexy']|wordwrap }}
+</pre>
+
+This JSON can of course be used for any purpose, but one nice purpose would be to feed it into a Dexy document. For now this is a separate step, mostly for simplicity. In the projects I have developed this for, I am using ant to generate the JSON within a Java project, then generating documentation with dexy (I run this via "ant && dexy").
+
+There is a 'javadocs' filter which, for now, applies syntax highlighting to the source code. It may do some more specialized processing later. Its use is optional but recommended. The jinja filter (in the document in which you wish to incorporate the javadoc output) will automatically load JSON into a hash for you, so you can access any of the elements (not all "JavaDoc elements":http://download.oracle.com/javase/6/docs/jdk/api/javadoc/doclet/ are supported yet, but please send an example if you want a particular one supported and this can be added very quickly).
+
+So, as a quick example, here is a docstring for the greeting method:
+<pre>
+{{ d['json']['javadoc-data.json|javadocs']['packages']['hello']['classes']['helloworld']['methods']['greeting']['comment-text'] }}
+</pre>
+
+and here is that method's source code:
+
+{{ d['json']['javadoc-data.json|javadocs']['packages']['hello']['classes']['helloworld']['methods']['greeting']['source-html'] }}
+
+For a comprehensive example showing how to traverse the various JavaDoc elements, look at "examples/doc.html":https://bitbucket.org/ananelson/json-doclet/src/tip/example/doc.html in the json-doclet repository.
+
+These new filters make it possible to write a far broader range of Java documentation, while not losing the benefits of the JavaDoc structure, and of course the huge wealth of existing JavaDoc documentation. Dexy's philosophy is to make it easier to document every programming language, and to work with and make the most of existing tools. I look forward to people taking advantage of the fact that writing custom JavaDoc formats is now as easy as writing HTML with some templating tags, there's no need to implement a Doclet in Java to customize the look and feel of JavaDoc output.
+
+As with Dexy itself, this Doclet code is being actively developed so please check frequently to make sure you have the latest version.
+

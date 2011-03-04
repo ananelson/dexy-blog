@@ -1,19 +1,23 @@
-{ 
+{
     "index.html|jinja|wp" : {
         "allinputs" : true
     },
     "index.txt|jinja|textile|wp" : {
         "allinputs" : true
     },
-    "post.json|dexy" : {},
     "*.c|c" : {},
     "*.c|pyg" : {},
-    "*.py|py" : {},
+    "*.html|pyg" : {
+      "except" : "index.html"
+    },
     "*.py|pyg" : {},
     "*.py|idio" : {},
     "*.R|jinja|r|pyg" : {},
     "*.R|pyg" : {},
     "*.txt|dexy" : {},
     "*.sh|pyg" : {},
-    "*.jpg|cp": {}
+    "*.java|pyg" : {},
+    "*.jpg|cp": {},
+    ".dexy|dexy" : {},
+    "*.json|dexy" : {}
 }

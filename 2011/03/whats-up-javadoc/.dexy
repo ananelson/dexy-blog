@@ -1,0 +1,7 @@
+{
+  "hello.java|java" : {},
+  "helloworld.java|java" : {
+    "main" : "hello.helloworld"
+  },
+  "javadoc-data.json|javadocs" : {}
+}
