@@ -1,0 +1,139 @@
+Let's look at an example of what we can do with our <a href="/384">newly liberated JavaDocs</a>. Because we can make use of the JavaDoc information elsewhere, we can combine this information with other sources. This means that we no longer have to use JavaDoc comments for everything, we can just use them for what they are good at and place other types of information elsewhere. A great candidate for this is mathematical descriptions of formulas that are being implemented with code. I have been looking into this as part of my work for "OpenGamma":http://opengamma.com, who have a lot of math to document.
+
+<!--more-->
+
+The best tool available for typesetting mathematical equations is LaTeX. It's the only tool I would even consider using, and I don't know of any other candidates. There is a LaTeX taglet for JavaDoc called "LaTeXlet":http://users.informatik.uni-halle.de/~grau/LaTeXlet/index.html. This works within JavaDoc comments, but to use it you need to type double-escaped LaTeX into the comments. This is difficult to type, it clutters up the comments with strange-looking LaTeX, and it means this LaTeX is hard to use elsewhere.
+
+The new Dexy-based option calls for typing pure, unadulterated LaTeX into separate documents with a .tex extension (so these could easily be rendered as LaTeX for testing or for use elsewhere). JavaDoc information is stored in JSON files using the "JSON doclet":http://bitbucket.org/ananelson/jsondoclet, and then these can be brought together to write any type of documentation that is needed, such as this blog post.
+
+We want to be able to create HTML documentation, and for this we will be using the excellent open source "MathJax":http://www.mathjax.org JavaScript library, which directly renders LaTeX code in the browser.
+
+I've picked the cern.jet.random.Gamma and related classes from the open source Colt library to play with. You can see the "original JavaDoc documentation here":http://acs.lbl.gov/software/colt/api/cern/jet/random/Gamma.html and "here":http://acs.lbl.gov/software/colt/api/cern/jet/stats/Probability.html. There is a little inline math, and links to some "other pages":http://rd11.web.cern.ch/RD11/rkb/AN16pp/node96.html#SECTION000960000000000000000 which have formulas rendered as images. Of course in fairness, this is code from 1999 and at least there is extensive documentation, even if it's not pretty. A more relevant criticism is that the formulas referenced are not exactly what is implemented, they are background information rather than direct mathematical documentation of the actual code, and it is an 'exercise for the reader' to work out how to arrive at the actual Java implementation. In this particular case, the formula given of:
+
+<pre>
+p(x) = k * x^(alpha-1) * e^(-x/beta)
+with k = 1/(g(alpha) * b^a)) and g(a) being the gamma function.
+</pre>
+
+is inconsistent, the final b and a should be beta and alpha, and in the implementation 'beta' is actually called 'lambda'. Of course, you either need to be intimately familiar with the Gamma distribution or you need to do some research to figure this out. This is a consequence of the fact that the description is so divorced from the implementation, which hopefully would be prevented by a documentation approach like the one taken here.
+
+Let's write a separate snippet of LaTeX which describes the Gamma distribution. We will be able to include this snippet directly in both PDF (made from LaTeX) and HTML (thanks to MathJax) forms of our new documentation. Please do not use this as reference material for the Gamma distribution! I have taken these formulae from the Colt documentation and the various pages which are referenced, and I have taken care to be accurate, but this is only intended as an illustration of this LaTeX technique.
+
+Here is the raw LaTeX:
+
+{{ d['sections']['gamma.tex|idio']['1'] }}
+
+And here is the LaTeX rendered as an equation by MathJax
+
+<notextile>
+{{ d['sections']['gamma.tex|idio|t']['1'] }}
+</notextile>
+
+(If you don't see pretty equations then check out "MathJax's browser compatibility page":http://www.mathjax.org/resources/browser-compatibility/)
+
+That describes the Gamma distribution generally, let's look now at the various functions which implement aspects of this.
+
+h2. Probability Density Function
+{% set method_info = d['json']['javadoc-data.json|javadocs']['packages']['cern.jet.random']['classes']['Gamma']['methods']['pdf'] %}
+
+For background, here's the definition of a "probability density function":http://en.wikipedia.org/wiki/Probability_density_function.
+
+This information about the method is taken from the JavaDocs:
+
+<pre>
+{{ method_info['qualified-name'] }}
+{{ method_info['comment-text'] }}
+Returns value of type: {{ method_info['return-type'] }}
+Accepts parameters of type: {{ method_info['signature'] }}
+</pre>
+
+Here is our LaTeX description of what is being implemented:
+
+{{ d['sections']['gamma.tex|idio|t']['pdf'] }}
+
+And here is the method's source code, again taken from the JavaDoc data:
+
+<notextile>
+{{ method_info['source-html'] }}
+</notextile>
+
+Thanks to the work we did in the LaTeX, we can see how the formula which was actually implemented relates to the traditional specification of the formula.
+
+h2. Cumulative Distribution Function
+{% set method_info = d['json']['javadoc-data.json|javadocs']['packages']['cern.jet.random']['classes']['Gamma']['methods']['cdf'] %}
+
+Here's the definition of a "cumulative distribution function":http://en.wikipedia.org/wiki/Cumulative_distribution_function.
+
+<pre>
+{{ method_info['qualified-name'] }}
+{{ method_info['comment-text'] }}
+Returns value of type: {{ method_info['return-type'] }}
+Accepts parameters of type: {{ method_info['signature'] }}
+</pre>
+
+{{ d['sections']['gamma.tex|idio|t']['cdf'] }}
+
+Here is this method's source code:
+
+<notextile>
+{{ method_info['source-html'] }}
+</notextile>
+
+We see that this just calls a method in the cern.jet.stat package:
+
+{% set method_info = d['json']['javadoc-data.json|javadocs']['packages']['cern.jet.stat']['classes']['Probability']['methods']['gamma'] %}
+<pre>
+{{ method_info['qualified-name'] }}
+Returns value of type: {{ method_info['return-type'] }}
+Accepts parameters of type: {{ method_info['signature'] }}
+</pre>
+
+Here is the original JavaDoc comment for this method:
+
+<notextile>
+<div style="border:thin solid black;padding:20px;margin:10px;">
+{{ method_info['comment-text'] }}
+</div>
+</notextile>
+
+And here is its source:
+<notextile>
+{{ method_info['source-html'] }}
+</notextile>
+
+which in turn calls the incompleteGamma method:
+
+{% set method_info = d['json']['javadoc-data.json|javadocs']['packages']['cern.jet.stat']['classes']['Gamma']['methods']['incompleteGamma'] %}
+<pre>
+{{ method_info['qualified-name'] }}
+{{ method_info['comment-text'] }}
+Returns value of type: {{ method_info['return-type'] }}
+Accepts parameters of type: {{ method_info['signature'] }}
+</pre>
+
+Whose source finally contains an actual implementation:
+
+<notextile>
+{{ method_info['source-html'] }}
+</notextile>
+
+h2. Usage
+
+Here are a few simple examples of using this, in Java and JRuby.
+
+h3. Java
+
+{{ d['CallGamma.java|pyg'] }}
+
+{{ d['CallGamma.java|java'] }}
+
+h3. JRuby
+
+{{ d['call-gamma.rb|jirb|pyg'] }}
+
+h2. Ideas
+
+Apart from some math porn, what exactly is the point of all this? When mathematics are implemented using code, there is tremendous benefit to preserving the link between theory (math) and practice (code). By using tools which allow the full expression of mathematics, we can see the derivation from the original formula to the form in which it can be actually implemented. These expressions can be checked to make sure they are correct, practitioners can easily understand the implications of the particular implementation, and students can see how the theories they learn are translated into actionable code. Where the full range of mathematical expression isn't available, documentation tends to ignore or just loosely reference the underlying theory. As we saw in this case, these referenced formulas sometimes use different notation and don't necessarily map directly to the computations which are implemented.
+
+With the decoupled use of JavaDoc made possible by our custom doclet, we can make use of document formats which allow us to take advantage of tools such as MathJax for rendering LaTeX in HTML, while not losing the benefit of existing documentation and the data automatically extracted by JavaDoc.
+

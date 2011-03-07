@@ -1,0 +1,17 @@
+{
+  "article.tex|jinja|latex" : {
+    "allinputs" : true
+  },
+  "*.tex|idio" : {},
+  "*.tex|idio|t" : {},
+  "javadoc-data.json|javadocs" : {},
+  "call-gamma.rb|jirb|pyg" : {
+    "env" : {"CLASSPATH" : "/java/colt.jar"}
+  },
+  "call-gamma.rb|jirb|pyg|l" : {
+    "env" : {"CLASSPATH" : "/java/colt.jar"}
+  },
+  "CallGamma.java|java" : {
+    "env" : {"CLASSPATH" : "/java/colt.jar"}
+  }
+}

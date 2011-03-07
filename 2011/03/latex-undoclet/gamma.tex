@@ -1,0 +1,28 @@
+The Gamma distribution function is given by
+$$ P(x,a) = \frac{1}{\Gamma(a)} \int_0^x e^{-t} t^{a-1} \,dt $$
+for real arguments $x \geq 0$ and $a > 0$.
+
+Where Euler's gamma function is defined by the integral
+
+$$ \Gamma(z) = \int_0^\infty t^{z-1} e^{-t} \,dt, \hspace{10mm} Re(z) > 0 $$
+
+%%% @export "pdf"
+
+We will implement the probability density function as
+
+$$ p(x) = \frac{1}{\Gamma(\alpha) \lambda^\alpha} x^{\alpha-1} e^{-\frac{x}{\lambda}} $$
+
+which is equivalent to
+
+$$ p(x) = \frac{ e^{\left( (\alpha - 1) \log \left( \frac{x}{\lambda} \right) - \frac{x}{\lambda} - \log \left( \Gamma(\alpha) \right) \right) }}{\lambda} $$
+
+%%% @export "cdf"
+
+The cdf is the integral of the pdf (the cumulative distribution is the sum/integral of all the individual probabilities).
+
+$$ y(x) = \frac{\alpha^\lambda}{\Gamma(\lambda)} \int_0^x t^{\lambda-1} e^{-\alpha t} \,dt $$
+
+where
+
+$$ \int_0^x t^{\lambda-1} e^{-\alpha t} \,dt $$ is the lower incomplete gamma function.
+
