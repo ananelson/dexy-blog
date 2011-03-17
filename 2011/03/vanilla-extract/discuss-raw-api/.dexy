@@ -1,0 +1,10 @@
+{
+  "discuss.html|jinja|vanilla" : {
+    "allinputs" : true
+  },
+  "comment.html|jinja|vanillacomment" : {
+    "inputs" : ["comment.json|dexy", "discuss.html|pyg"]
+  },
+  "*.json|dexy" : {},
+  "*.py|pyg" : {}
+}

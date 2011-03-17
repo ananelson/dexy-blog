@@ -1,0 +1,5 @@
+{
+  "vanilla-config.json|pyg" : {},
+  "discuss-raw-api/*.json|pyg" : {},
+  "discuss-raw-api/.dexy|dexy" : {}
+}

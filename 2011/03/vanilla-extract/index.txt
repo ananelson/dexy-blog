@@ -1,0 +1,66 @@
+When I was thinking about the best option for community support for Dexy, I decided to take the forum route rather than the mailing list option. After much searching, I chose "Vanilla Forums":http://vanillaforums.org which was open source and seemed pleasant to interact with and sanely written. You can visit the Dexy forum at "discuss.dexy.it":http://discuss.dexy.it.
+
+Recently, since I had a question to answer and wanted to be able to do so using Dexy, I sat down to implement Dexy integration with Vanilla. As a result I developed two filters, one called 'vanilla' for starting a new discussion, and one called 'vanillacomment' for commenting on an existing discussion (i.e. answering a question).
+
+<!--more-->
+
+Asking or answering questions is a natural use case for Dexy, as it involves explaining code. With Dexy you can easily include your example code in your question or reply, and also show how the code looks when run, which is great for explaining things and is also a great way to make sure you don't have typos or other mistakes in your post. Hopefully it will also reinforce the practice to include a self-contained example when asking a question. Of course it's totally optional to use Dexy, you can still ask or answer questions the old fashioned way!
+
+To see what Dexy-generated Vanilla forum discussions look like check out "this":http://vanillasandbox.dexy.it/discussion/1/posting-to-vanilla-api and "this":http://discuss.dexy.it/index.php?p=/discussion/comment/7#Comment_7. If you want to try it out, then feel free to register and post to "vanillasandbox.dexy.it":http://vanillasandbox.dexy.it. This is just a sandbox so contents will be deleted periodically. Of course if you want to ask (or answer) a Dexy question this works on the real "Dexy forum":http://discuss.dexy.it too.
+
+h2. Setting Up Vanilla
+
+If you want to enable Dexy integration with your own installation of Vanilla then you will need to install and activate the "JSON API":http://vanillaforums.org/addon/542-api-json addon. (In fact you will need the latest version from "github":https://github.com/ananelson/vanilla-api-addon which contains a tweak.) If you want to have syntax highlighing for source code then you will need to modify the theme you are using to add a stylesheet for your syntax highlighter. (If you are using "Pygments":http://pygments.org then "here":http://pygments.org/docs/cmdline/#generating-styles is how to generate a stylesheet.)
+
+h2. Using the Vanilla Filter
+
+The authentication mechanism, for now, depends on you obtaining a login cookie from your browser. (If anyone knows PHP then writing a "Vanilla authentication":http://vanillaforums.org/docs/configuration-dashboardusersauthentication plugin to allow creating proper API keys would be very welcome.) Log in to the vanilla site you wish to access, then copy the text of the cookie named Vanilla. On Firefox 3 this is done by going into Tools -> Page Info and clicking the View Cookies button on the Security tab.
+
+You will want to use this cookie text to create a file named vanilla-config.json which should look like this:
+{{ d['discuss-raw-api/vanilla-config.json|pyg'] }}
+
+If this cookie changes, you will need to update this config file. You will need separate config files for each forum you wish to post to. For now Dexy expects to find this config file in your Dexy project root, so this suggests having a separate Dexy project for each forum you wish to participate in.
+
+For the moment, I don't have support for 'draft' discussions/comments so you will want to write your content locally and then post it to vanilla when it's ready. You can always revise it after posting it.
+
+To start a new discussion, you need to create a discuss.json file like this
+
+{{ d['discuss-raw-api/original-discuss.json|pyg'] }}
+
+which should be passed through the dummy 'dexy' filter and be passed as an input to the file which has the content you wish to post to the forum, for example, assuming you want to post the contents of "discuss.html" to the forum, your .dexy file might include:
+
+<pre>
+"discuss.html|jinja|vanilla" : {
+  "inputs" : ["discuss.json|dexy"]
+}
+</pre>
+
+After you have posted your new discussion, Dexy will add the DiscussionID to your discuss.json config file, so if you run Dexy again the existing discussion will be updated. You can also specify the DiscussionID of an existing discussion yourself.
+
+{{ d['discuss-raw-api/discuss.json|pyg'] }}
+
+To comment on an existing discussion, you use the 'vanillacomment' filter, and you need to specify the DiscussionID which the comment relates to in a file called comment.json, for example:
+
+{{ d['discuss-raw-api/original-comment.json|pyg'] }}
+
+Again, the CommentID will be added after it has been created, or you can specify it yourself if you want to modify an existing comment:
+
+{{ d['discuss-raw-api/comment.json|pyg'] }}
+
+Again, this JSON file should be passed through the dummy 'dexy' filter and passed as an input to the file containing the comment text, e.g. your .dexy file might include:
+
+<pre>
+"comment.html|jinja|vanillacomment" : {
+  "inputs" : ["comment.json|dexy"]
+}
+</pre>
+
+Here is the .dexy file I actually used:
+
+<pre>
+{{ d['discuss-raw-api/.dexy|dexy'] }}
+</pre>
+
+As an example, I have posted the original python script I wrote to connect with the Vanilla API. You can see this "here":http://vanillasandbox.dexy.it/discussion/1/posting-to-vanilla-api.
+
+I can think of a number of features I want to add to this to make the interface simpler and easier, so please check the "filter documentation":http://dexy.it/docs/filters/vanilla for updates in case the interface has changed. Happy posting!
