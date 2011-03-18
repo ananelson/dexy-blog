@@ -3,6 +3,8 @@ Dexy has two new filters, a "java" filter and a "javadocs" filter, which provide
 Here's our Hello, World source code:
 {{ d['hello.java|pyg'] }}
 
+<!--more-->
+
 this gets compiled, then run, producing output like this:
 
 <pre>

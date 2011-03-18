@@ -2,8 +2,9 @@
     "index.html|jinja|wp" : {
         "allinputs" : true
     },
-    "index.txt|jinja|textile|wp" : {
-        "allinputs" : true
+    "index.txt|fn|jinja|textile|wp" : {
+        "allinputs" : true,
+        "notextile" : true
     },
     "*.c|c" : {},
     "*.c|pyg" : {},

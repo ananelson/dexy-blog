@@ -1,0 +1,20 @@
+{
+  "demo.py|fn|idio|pycon|pyg" : {
+    "inputs" : ["goog.csv|dexy"]
+  },
+  "demo.R|fn|r|pyg" : {
+    "inputs" : ["demo.py|fn|idio|pycon|pyg"]
+  },
+  "@simple-map.json|pyg" : {
+    "url" : "http://wiki.basho.com/attachments/simple-map.json"
+  },
+  "@map-high.json|pyg" : {
+    "url" : "http://wiki.basho.com/attachments/map-high.json"
+  },
+  "@map-highs-by-month.json|pyg" : {
+    "url" : "http://wiki.basho.com/attachments/map-highs-by-month.json"
+  },
+  "@sample-highs-over-600.json|pyg" : {
+    "url" : "http://wiki.basho.com/attachments/sample-highs-over-600.json"
+  }
+}

@@ -1,0 +1,124 @@
+I have recently been playing with "Riak":http://wiki.basho.com/, a key-value store database inspired by dynamo, and in particular with its map-reduce functionality. This gave me a nice excuse to write this blog post which describes the Python interface to Riak, and also demonstrates how Dexy can be used to run and document map reduce jobs and to make use of the returned data.
+
+<!--more-->
+
+I will implement the examples in "this tutorial":http://wiki.basho.com/Loading-Data-and-Running-MapReduce-Queries.html using the "Riak Python client":https://github.com/basho/riak-python-client. This assumes you already have Riak and the Python client library "installed and running":http://wiki.basho.com/Installation-and-Setup.html.
+
+To begin, we import the Python packages we will need:
+
+{{ d['sections']['demo.py|idio']['imports'] }}
+
+We read the "CSV data file":http://wiki.basho.com/attachments/goog.csv used for the examples, and load this into a riak bucket, using the date as a key. This script is designed so that the data is only imported the first time it's encountered, as the script will be run more than once during the course of writing a Dexy document:
+
+{{ d['sections']['demo.py|idio']['load-data'] }}
+
+Once we have loaded the data, we can retrieve an individual record like so:
+
+{{ d['sections']['demo.py|fn|idio|pycon|pyg']['show-record'] }}
+
+Next we'll work through the examples in this screencast:
+
+<iframe src="http://player.vimeo.com/video/11328947" width="400" height="225" frameborder="0"></iframe>
+
+h2. Simple Map
+
+A simple map-only job that returns the entire data set. To retrieve this, we simply pass the name of a ready-made JavaScript function.
+
+Here is the original JSON version from the demo:
+{{ d['simple-map.json|pyg'] }}
+
+In Python we do:
+
+{{ d['sections']['demo.py|fn|idio|pycon|pyg']['simple-map'] }}
+
+We can see how many results are returned:
+{{ d['sections']['demo.py|fn|idio|pycon|pyg']['simple-map-len-results'] }}
+
+And we can peek at the structure of the first record:
+{{ d['sections']['demo.py|fn|idio|pycon|pyg']['simple-map-first-record'] }}
+
+h2. Max High Value Specific Dates
+
+The next example is a map-reduce job that returns the maximum daily high value in the first week of January. The "first week of January" dates are hard-coded, this is to demonstrate that a map function can be run on a specific list of keys within a bucket.
+
+First, let's just see how to fetch all the data for specific keys:
+{{ d['sections']['demo.py|fn|idio|pycon|pyg']['simple-map-specific-dates'] }}
+
+Now let's do the task at hand, finding the max high during these dates. This task involves both a map phase (to retrieve the daily high data) and a reduce phase (to analyze the returned data to determine the highest sell value).
+
+Here is the original JSON:
+
+{{ d['map-high.json|pyg'] }}
+
+And here is our Python version:
+
+{{ d['sections']['demo.py|fn|idio|pycon|pyg']['simple-map-reduce'] }}
+
+Rather than fetching all the data in the map phase, now we just fetch the High values, using a custom map function to do so rather than the standard function used before. The reduce phase returns the maximum value among the values returned by the map. Note that we aren't asking about which date had the max High, or anything other than the value of this High, so we don't need to return anything else from the map.
+
+h2. Map Highs By Month
+
+This example illustrates a custom map followed by a custom reduce, we want to find the maximum high value in each month.
+
+Here is the original JSON:
+{{ d['map-highs-by-month.json|pyg'] }}
+
+And here is the Python implementation, showing the first few values returned:
+{{ d['sections']['demo.py|fn|idio|pycon|pyg']['map-highs-by-month'] }}
+
+h2. Days over $600
+
+The last of the examples in the screencast was to find a list of all days on which the High was over $600. This can be done just with a map, we don't need a reduce phase.
+
+Here is the original JSON:
+{{ d['sample-highs-over-600.json|pyg'] }}
+
+And here is the Python implementation:
+{{ d['sections']['demo.py|fn|idio|pycon|pyg']['find-days-over-600'] }}
+
+h2. Save Data
+
+Now that we've worked through these examples, let's do a little more with them to take advantage of some of Dexy's functionality. First, we'll save the monthly high data we retrieved earlier to a CSV data file. Dexy's 'fn' filter helps with filenames, we specify filenames like <notextile>dexy----highs-by-month.csv</notextile> which will be converted to random filenames when we actually run this code. This way, we can easily access this filename later and also know that each time the script is run, the data is saved to a unique file, so if we change our script we can be confident that the data in the file is what we expect it to be.
+
+Here's the code as written:
+{{ d['sections']['demo.py|idio']['save-data'] }}
+
+And here's what it looks like when it is run, after the filenames have been substituted:
+{{ d['sections']['demo.py|fn|idio|pycon|pyg']['save-data'] }}
+
+You'll notice that we saved the monthly highs to a CSV file, and saved some other data to a JSON file.
+
+h2. R
+
+Now we can make use of this CSV file we've just created by opening it in R and analyzing and graphing the data.
+
+{{ d['demo.R|fn|r|pyg'] }}
+
+We'll show the graph generated in the next section.
+
+h2. Writing
+
+Dexy can help with writing tutorials and other forms of software documentation, as in the first few sections of this post where we showed Python scripts for interacting with Riak. But for those times when you are interested in the output, rather than just the technique, of running code, then Dexy can also help with writing up your reports. We have run a number of queries, and generally this is because we'd like to do something useful with the output. With data science, you probably want to report your analysis either to yourself or for others so you can make decisions or learn from what you've analyzed. This can be done with Dexy, with the advantages of:
+
+* being able to re-run your report at any time to update it, either with improved analysis code or fresh data
+* being able to incorporate your results and the documentation for how you generated those results into the same document, so it's easy to check, audit and share your methods
+* eliminating errors due to manually copying the results of calculations into reports
+
+So, let's do this now. I have highlighted the dynamically generated values in blue. Remember that the source code for this blog post (and any others that have been generated using Dexy) is available "on bitbucket":https://bitbucket.org/ananelson/dexy-blog/src/tip/2011/03/riak-python/. Here is our "report", complete with graph:
+
+<div style="border: thin solid blue;">
+There were <span style="color:blue;">{{ d['map-reduce-results']['number-days-over-600'] }}</span> days during the period on which the share price was over 600. During the first week in January 2010, the maximum daily high was <span style="color:blue;">{{ d['map-reduce-results']['first-week-jan-max'] }}</span>.
+
+Here is a graph which shows the monthly highs during the period:
+
+!artifacts/{{ d['a']['monthly-highs'] }}!
+</div>
+
+These numbers in blue came from the data we saved earlier to a JSON file. JSON is a convenient way to share data between different scripts or documents in a Dexy project, in this case to do some calculations in one place (the Python script) and to access the results of those calculations elsewhere (this blog post).
+
+Finally, here is the .dexy file for this blog post:
+
+<pre>
+{{ d['.dexy|dexy'] }}
+</pre>
+
