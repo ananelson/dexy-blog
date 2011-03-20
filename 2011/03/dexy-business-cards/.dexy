@@ -1,0 +1,20 @@
+{
+  "card001.tex|jinja|hd|ft|latex|pdf2png|botoup" : {
+    "inputs" : ["001.c|c", "001.c|pyg|l", "_header.tex|dexy", "_footer.tex|dexy"]
+  },
+  "card002.tex|jinja|hd|ft|latex|pdf2png|botoup" : {
+    "inputs" : ["002.R|fn|idio|rint|pyg|l", "_header.tex|dexy", "_footer.tex|dexy"]
+  },
+  "card003.tex|jinja|hd|ft|latex|pdf2png|botoup" : {
+    "inputs" : ["003.clj|pyg|l", "003.clj|clj", "_header.tex|dexy", "_footer.tex|dexy"]
+  },
+  "003.clj|clj" : {
+    "env" : {"CLASSPATH" : "/java/clojure.jar"}
+  },
+  "card004.tex|jinja|hd|ft|latex|pdf2png|botoup" : {
+    "inputs" : ["004.py|idio|l", "004.py|py|ps2pdf", "_header.tex|dexy", "_footer.tex|dexy"]
+  },
+  "004.py|py|ps2pdf" : {
+    "timeout" : 240
+  }
+}

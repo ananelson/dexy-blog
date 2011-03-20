@@ -1,0 +1,75 @@
+If you met me at a conference recently, you probably got one of my very dexy business cards. I love the idea of business cards which are useful in some way, and these are business cards which are also mini demos of Dexy, not to mention the awesomeness of having business cards with source code!
+
+I'm down to the very last card of my first order from "Moo":http://moo.com (except for the 4 I'm keeping for myself - 1 of each design), so as I'm about to order more, it occurred to me that I haven't actually blogged about them yet. To make up for this omission, I made the first Dexy screencast talking about how the cards are made.
+
+<!--more-->
+
+If you want to get into the nitty gritty of using Dexy with LaTeX files, then you can watch Part 1, which talks about LaTeX preambles and goes through what gets written to a Dexy log file. If you're not in the mood right now and just want to see some pretty PDFs being generated, then feel free to skip ahead to Part 2. Or just keep scrolling and you'll find the source code for all 4 of my card designs below.
+
+h3. Part 1
+
+<object width="600" height="368"><param name="movie" value="http://www.youtube-nocookie.com/v/DHyMjGvyLP0?fs=1&amp;hl=en_US&amp;rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube-nocookie.com/v/DHyMjGvyLP0?fs=1&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="368"></embed></object>
+
+h3. Part 2
+
+<object width="600" height="368"><param name="movie" value="http://www.youtube-nocookie.com/v/WpT3AxSs9WM?fs=1&amp;hl=en_US&amp;rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube-nocookie.com/v/WpT3AxSs9WM?fs=1&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="368"></embed></object>
+
+
+h2. Source Code
+
+Below is the source code for each of the 4 card designs in my first batch. (Note the PNG image files below aren't quite as crisp as the original PDFs they were rendered from.) I'll be coming up with some new designs soon. I'm a fan of Moo because their cards look great (I went for the green stock, very happy with it), but most importantly Moo's printfinity meant I was able to print multiple card designs. (If you're curious, the R card was the most popular, which was probably due to my choice of conferences as well as the fact that it had a lovely sparkly graph.)
+
+If you'd like to use these as templates for your own cards, then please feel free. I'd love to hear from you if you do!
+
+h3. Card 1
+
+C source code:
+
+{{ d['001.c|pyg'] }}
+
+LaTeX source:
+
+{{ d['card001.tex|pyg'] }}
+
+<img src="{{ d['card001.tex|jinja|hd|ft|latex|pdf2png|botoup'] }}" />
+
+h3. Card 2
+
+R source code:
+
+{{ d['002.R|pyg'] }}
+
+LaTeX source:
+
+{{ d['card002.tex|pyg'] }}
+
+<img src="{{ d['card002.tex|jinja|hd|ft|latex|pdf2png|botoup'] }}" />
+
+h3. Card 3
+
+Clojure source code:
+
+{{ d['003.clj|pyg'] }}
+
+LateX source:
+
+{{ d['card003.tex|pyg'] }}
+
+<img src="{{ d['card003.tex|jinja|hd|ft|latex|pdf2png|botoup'] }}" />
+
+By the way, if you're a Clojure fan and interested in Dexy you might consider writing a "Pygments lexer":http://pygments.org/docs/lexerdevelopment/ for Clojure transcripts, so that examples like this can be syntax highlighted. (There's a lexer for pure Clojure source code but not for Clojure console sessions.)
+
+h3. Card 4
+
+Python source code:
+
+{{ d['004.py|pyg'] }}
+
+LaTeX source:
+
+{{ d['card004.tex|pyg'] }}
+
+<img src="{{ d['card004.tex|jinja|hd|ft|latex|pdf2png|botoup'] }}" />
+
+The full source code can be found on "bitbucket":https://bitbucket.org/ananelson/dexy-blog/src/tip/2011/03/dexy-business-cards.
+
