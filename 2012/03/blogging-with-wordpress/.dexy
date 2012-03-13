@@ -1,0 +1,15 @@
+{
+    "ex*-dexy|ppjson|pyg" : {},
+    "*.html|pyg" : {},
+    "*.md|pyg" : { "pygments" : { "lexer" : "jinja" }},
+    "@screencap1.png|boto": { "contents": null, "inputs": [ "script.sh|fn|idio|shtmp" ] },
+    "@screencap2.png|boto": { "contents": null, "inputs": [ "script.sh|fn|idio|shtmp" ] },
+    "@screencap3.png|boto": { "contents": null, "inputs": [ "script.sh|fn|idio|shtmp" ] },
+    "index.md|jinja|markdown|wp": {
+        "allinputs": true
+    },
+    "script.sh|fn|idio|shtmp": {
+        "inputs": [ "ex*|dexy", "set-to-publish.py", "change-title.py" ],
+        "timeout": 240
+    }
+}

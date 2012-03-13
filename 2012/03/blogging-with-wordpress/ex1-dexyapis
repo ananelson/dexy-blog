@@ -1,0 +1,7 @@
+{
+    "wordpress" : {
+        "url" : "http://dexydemo.wordpress.com",
+        "username" : "$WP_USERNAME",
+        "password" : "$WP_PASSWORD"
+    }
+}

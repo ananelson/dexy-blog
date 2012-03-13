@@ -1,0 +1,6 @@
+{
+    "index.md|jinja|markdown|wp" : { "allinputs" : true },
+    "example.py|idio|pycon|pyg" : { "pygments" : { "noclasses" : true }},
+    "example.js|idio|rhinoint" : {},
+    "wordpress.json" : {}
+}
