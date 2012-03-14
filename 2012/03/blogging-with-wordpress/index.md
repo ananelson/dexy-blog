@@ -1,4 +1,8 @@
+For a developer, trying to blog about code is a frustrating process. WYSIWYG content editors mangle code and whitespace. Tools like gist and other code-snippet displays can help, but they also distance your code from your writing. With Dexy, we can write blog posts that incorporate code just where we want it, in the format we want it, and with confidence that the code we are writing is correct and easy to modify as we go.
+
 In this tutorial we'll walk through creating and then modifying a WordPress blog post. All the features mentioned in this blog post are available in Dexy 0.5.7. In order to post content to WordPress we will use its XMLRPC API, so before you try this yourself make sure you have enabled this option; it is disabled by default.
+
+<!--more-->
 
 We'll start in an empty directory. We need to configure our directory to know where our WordPress installation is, and to provide our username and password. Fortunately Dexy's new filter commands make this really easy. The `create_keyfile` command from the WordPress filter will create the configuration file we need to store our credentials:
 
@@ -8,7 +12,9 @@ We could also call the `create_keyfile` filter command on the ApiFilter classs (
 
 {{ d['script.sh|fn|idio|shtmp']['apis-fcmd-help']['transcript-html'] }}
 
-The user-wide approach is usually more convenient, since you can run your dexy scripts from anywhere and only need to have your credentials in one place. On the other hand, per-project config is useful if you need to override the defaults to post to a different blog, if you prefer to keep the credentials closer to where you will be using them, or if you are just getting started and want the simplest option.
+The user-wide approach is usually more convenient, since you can run your dexy scripts from anywhere and only need to have your credentials in one place. On the other hand, per-project config is useful if you need to override the defaults to post to a different blog or if you prefer to keep the credentials closer to where you will be using them.
+
+Now we'll call the filter command:
 
 {{ d['script.sh|fn|idio|shtmp']['call-wp-fcmd']['transcript-html'] }}
 
@@ -86,6 +92,8 @@ If you would like to use a different syntax highlighting system, and are having 
 
 For this example, we will tell pygments to use inline styles rather than classes, so no modification to the CSS is required (which is good since I'm doing this demo using a free wordpress.com blog, so I can't modify the CSS).
 
+We will write a short blog post that shows parallel code written in Python and JavaScript, and executed using the python REPL and the rhino interpreter respectively. Pygments has support for python console transcripts, so we will have syntax highlighting on the Python output. However, there is not (yet) a comparable highlighter for JavaScript, so we will just show the raw output and surround it with &lt;pre&gt; tags.
+
 We'll use markdown rather than HTML, so we don't have to type as much markup. Here is the source for our blog post:
 
 {{ d['ex2-index.md|pyg'] }}
@@ -104,6 +112,6 @@ And, here's the screenshot of our updated blog post:
 
 ![screenshot of blog post with code examples]({{ d['screencap3.png|boto'] }})
 
-If you are new to Dexy, then reviewing tutorials [0](/docs/tutorials/0-hello-world) and [1](/docs/tutorials/1-python) will help you understand how the HTML for that blog post was created. There is a [dexy template](/docs/templates/wordpress-blogpost) containing a similar setup to that described here which you can also download to get started.
+If you are new to Dexy, then reviewing tutorials [0](/docs/tutorials/0-hello-world) and [1](/docs/tutorials/1-python) will help you understand how the HTML for that blog post was created.
 
-That's all for this tutorial! You can check out the source code of this blog post at [github](https://github.com/ananelson/dexy-blog/). If you have any questions please leave a comment, or if you need help getting this to work please open a [support ticket](http://dexy.tenderapp.com).
+That's all for this tutorial! You can check out the source code of this blog post at [github](https://github.com/ananelson/dexy-blog/tree/master/2012/03/blogging-with-wordpress). If you have any questions please leave a comment, or if you need help getting this to work please open a [support ticket](http://dexy.tenderapp.com). You can also download an [example project directory](https://s3.amazonaws.com/dexyit/wordpress-template.tgz) like the one described here to help you get started (although for learning it's better to do it yourself).

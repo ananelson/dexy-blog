@@ -2,6 +2,7 @@
 source ~/.wp-env.sh
 
 ### @export "wp-fcmd-help"
+dexy help -on fcmd
 dexy fcmd -alias wp -cmd create_keyfile -help
 
 ### @export "apis-fcmd-help"
@@ -54,7 +55,7 @@ mv ex2-example.py example.py
 mv ex2-example.js example.js
 
 ### @export "change-title"
-python change-title.py wordpress.json "My Fancier Blog Post"
+python change-title.py wordpress.json "My Fancier Automated Blog Post"
 
 ### @export "dexy-new-example"
 dexy -loglevel DEBUG
