@@ -1,0 +1,8 @@
+{
+    "@pi.png|boto": { "contents": null, "inputs": [ "code.py|fn|idio|pycon|pyg" ] },
+    "@pi2.png|boto": { "contents": null, "inputs": [ "code.py|fn|idio|pycon|pyg" ] },
+    "code.py|fn|idio|pycon|pyg": {},
+    "index.md|jinja|markdown|wp": {
+        "allinputs": true
+    }
+}
