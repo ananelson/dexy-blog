@@ -1,0 +1,16 @@
+index.md|jinja|markdown|wordpress:
+    - dexy.yaml|idio
+    - example.tex|idio
+    - tables.R|idio|rint|pyg:
+        - rint: {
+            add-new-files: True,
+            term: vt100
+        }
+
+### @export "example.tex"
+    - example.tex|jinja|latex|botoup:
+        - example.tex|pyg|l
+        - tables.R|rout:
+            - rout: {
+                add-new-files: True
+            }

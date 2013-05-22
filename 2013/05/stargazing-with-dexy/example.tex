@@ -1,0 +1,38 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+
+% Pygments syntax highlighting codes
+<< pygments['pastie.tex'] >>
+
+\begin{document}
+
+Examples taken from \href{http://bit.ly/10TgaJp}{Tal Galili's blog post} about
+stargazer.  This document is part of blog post \url{http://blog.dexy.it/523}.
+
+%%% @export "output-from-sink"
+Here's a pretty table:
+
+<< d['output-from-sink.tex'] >>
+
+%%% @export "snippets"
+<% set snippets = d['stargazer-snippets.json'].from_json() -%>
+
+%%% @export "use-snippets"
+Here's the same table:
+
+<< snippets.attitude >>
+
+Here's a fancier table:
+
+<< snippets.regression >>
+%%% @end
+
+Here is the source of this \LaTeX document:
+
+<< d['example.tex|pyg|l'] >>
+
+\end{document}
