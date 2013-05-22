@@ -1,0 +1,7 @@
+{
+    "wordpress": {
+        "password": "$DEXY_WP_PASSWORD",
+        "url": "http://blog.dexy.it",
+        "username": "$DEXY_WP_USERNAME"
+    }
+}
