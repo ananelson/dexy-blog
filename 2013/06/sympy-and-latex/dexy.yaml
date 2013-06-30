@@ -1,0 +1,7 @@
+index.md|jinja|markdown|wordpress:
+    - index.md|htmlsections
+    - dexy.yaml|idio
+    - example.py|pyg
+    - example.py|py
+    - .py|idio|pycon|pyg:
+        - pycon: { add-new-files: True }
