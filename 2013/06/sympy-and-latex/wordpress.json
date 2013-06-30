@@ -3,6 +3,6 @@
         "Examples"
     ], 
     "postid": "526", 
-    "publish": false, 
+    "publish": true, 
     "title": "SymPy and LaTeX"
 }
