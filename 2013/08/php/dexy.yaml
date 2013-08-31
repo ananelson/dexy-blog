@@ -1,0 +1,16 @@
+index.md|jinja|markdown|wp:
+    - dexy.yaml|idio
+    - index.md|idio
+      ### "idio"
+    - example.php|idio:
+        - idio: { lexer: 'php', lexer-args: { startinline: True } }
+      ### "php"
+    - example.php|php
+    - example.php|php|pyg:
+        - pyg: { lexer: 'html' }
+      ### "php-idio"
+    - example.php|php|idio:
+        - idio: { lexer: 'html' }
+      ### "pyg"
+    - example.php|pyg:
+        - pyg: { lexer: 'html+php' }
