@@ -1,0 +1,31 @@
+index.md|jinja|markdown|wp:
+    - dexy.yaml|idio
+    - index.md|idio:
+        - idio: { lexer : html+jinja }
+    - .m|idio:
+        - idio: { lexer : matlab }
+      ### "syntax-highlighting"
+    - .m|pyg:
+        - pyg: { lexer : matlab }
+      ### "basic-example"
+    - basic.m|matlabint
+      ### "run-examples"
+    - sections.m|idio|matlabint|pyg:
+        ### "run-examples-config-matlabint"
+        - matlabint: {
+            timeout : 30,
+            add-new-files : true,
+            additional-doc-filters : {.png : botoup}
+          }
+          ### "run-examples-config-pyg"
+        - pyg: { lexer : matlabsession }
+        ### "run-examples-dependencies"
+        - jsonlab/*.m
+       ### "publish-example"
+    - run-publish.m|matlabint:
+        - output: True
+        - example.m
+        - matlabint: {
+            add-new-files: true,
+            additional-doc-filters: {.html : botoup}
+            }

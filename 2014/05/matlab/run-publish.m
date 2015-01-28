@@ -1,0 +1,1 @@
+publish('example.m', 'html')
